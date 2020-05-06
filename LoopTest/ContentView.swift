@@ -5,12 +5,12 @@ struct ContentView: View {
     
     struct State: Equatable, Hashable {
         var menuIsOpen = false
-        var hellos: [HellosView.State] = []
+        var hellos: IdentifiedArrayOf<HellosView.State> = []
     }
     
     enum Actions {
         case
-        didTapMenuButton(index: Int, word: HellosView.Actions),
+        didTapMenuButton(id: UUID, word: HellosView.Actions),
         add
     }
     
@@ -23,9 +23,8 @@ struct ContentView: View {
                     ForEachStore(
                         self.store.scope(
                             state: \.hellos,
-                            action: Actions.didTapMenuButton(index:word:)
+                            action: Actions.didTapMenuButton(id:word:)
                         ),
-                        id: \.self,
                         content: HellosView.init(store:)
                     )
                 }
@@ -42,8 +41,8 @@ struct ContentView: View {
 let contentViewReducer = Reducer<ContentView.State, ContentView.Actions, Void>.combine(
     .init { state, actions, _ in
     switch actions {
-    case .didTapMenuButton(index: let index, word: let helloState):
-        state.hellos.remove(at: index)
+    case .didTapMenuButton(id: let id, word: let helloState):
+        state.hellos[id: id] = nil
     case .add:
         state.hellos.append(.init(message: "Hello"))
         }
@@ -51,7 +50,7 @@ let contentViewReducer = Reducer<ContentView.State, ContentView.Actions, Void>.c
         return .none
     }, helloViewReducer.forEach(
         state: \ContentView.State.hellos,
-        action: /ContentView.Actions.didTapMenuButton(index:word:),
+        action: /ContentView.Actions.didTapMenuButton(id:word:),
         environment: { $0 }
     )
 )
