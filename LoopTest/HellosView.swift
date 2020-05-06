@@ -3,7 +3,8 @@ import ComposableArchitecture
 
 struct HellosView: View {
     
-    struct State: Equatable, Hashable {
+    struct State: Equatable, Hashable, Identifiable {
+        let id = UUID() // FIXME: This work should be done in the environment for testability.
         var message: String
     }
     enum Actions {
