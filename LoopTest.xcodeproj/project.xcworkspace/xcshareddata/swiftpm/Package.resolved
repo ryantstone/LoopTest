@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "swift-composable-architecture",
+        "repositoryURL": "https://github.com/pointfreeco/swift-composable-architecture",
+        "state": {
+          "branch": null,
+          "revision": "d2240d0e76c1a758dbadbf737ceefc888b2e807c",
+          "version": "0.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
